@@ -5,6 +5,10 @@ body {
   padding: 0;
   background-color: #fff4e6; /* Light, warm background, like a soft cream */
   color: #333; /* Dark text for readability */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
 }
 
 .page-container {
@@ -103,4 +107,133 @@ h2 {
   background-size: cover;
   background-position: center;
   background-blur: 10px; /* Optional, if you want a blurry food background */
+}
+
+/* Restaurant Card */
+.restaurant-card {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  width: 400px;
+  max-width: 100%;
+  overflow: hidden; /* Prevent content from overflowing */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animation for hover */
+}
+
+.restaurant-card:hover {
+  transform: translateY(-10px); /* Subtle lift effect on hover */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+/* Restaurant Image */
+.restaurant-card img {
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  border-radius: 15px;
+  margin-bottom: 1rem; /* Adds spacing below the image */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Website Link */
+.restaurant-card .website-link {
+  color: #ff6f3c; /* Match the theme color */
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 1rem; /* Add spacing above */
+  display: block; /* Ensures it appears on a new line */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.restaurant-card .website-link:hover {
+  color: #f77f00; /* Slightly darker orange on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Header Styles */
+.restaurant-card h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ff6f3c; /* Orange header for a vibrant theme */
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px; /* Slightly spaced for elegance */
+}
+
+/* Description Styles */
+.restaurant-card p {
+  font-size: 1rem;
+  color: #555555; /* Neutral gray for easy readability */
+  margin-bottom: 1rem;
+  line-height: 1.5; /* Improve text spacing */
+}
+
+/* Website Link */
+.restaurant-card a {
+  color: #ff6f3c; /* Match theme color */
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  display: inline-block;
+  transition: color 0.3s ease, transform 0.3s ease; /* Add smooth transition */
+}
+
+.restaurant-card a:hover {
+  color: #f77f00; /* Slightly darker orange on hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Buttons */
+.button-container button {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-container button:hover {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+.button-container button:active {
+  transform: scale(0.95); /* Press effect */
+}
+
+/* Left (Dislike) Button */
+.button-container button:first-child {
+  background-color: #ff4d4d; /* Red for dislike */
+  color: white;
+}
+
+.button-container button:first-child:hover {
+  background-color: #ff1a1a; /* Darker red */
+}
+
+/* Right (Like) Button */
+.button-container button:last-child {
+  background-color: #4caf50; /* Green for like */
+  color: white;
+}
+
+.button-container button:last-child:hover {
+  background-color: #388e3c; /* Darker green */
 }
