@@ -1,0 +1,106 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff4e6; /* Light, warm background, like a soft cream */
+  color: #333; /* Dark text for readability */
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  /* Ensures full viewport height */
+  background-color: #f9f2e7; /* Soft beige background for the page */
+}
+
+.content-wrapper {
+  text-align: center;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 350px;  /* Limiting width of the content */
+  max-width: 100%;
+  border: 2px solid #f3c5b3; /* Light border color to match theme */
+}
+
+/* Header and Text */
+.header {
+  font-size: 2.5rem;
+  color: #ff6f3c; /* Orange, a color associated with food */
+  margin-bottom: 2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #f77f00; /* Darker orange for subheaders */
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* Input Fields */
+.input-field {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.8rem 0;
+  border-radius: 10px;
+  border: 1px solid #ff6f3c; /* Orange border to match theme */
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-field:focus {
+  border-color: #ff4d00; /* Darker orange on focus */
+}
+
+/* Buttons */
+.action-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #ff6f3c; /* Orange button background */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px; /* Space between buttons */
+}
+
+.action-button:hover {
+  background-color: #f77f00; /* Darker orange on hover */
+}
+
+.action-button:disabled {
+  background-color: #f8c3a6; /* Lighter color for disabled state */
+  cursor: not-allowed;
+}
+
+/* Party Leader Page Styles */
+.party-info {
+  font-size: 1.2rem;
+  color: #ff6f3c; /* Orange color for party code */
+  margin-bottom: 1.5rem;
+}
+
+.instructions {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+/* Optional: You can use food images in the background or buttons */
+.page-container {
+  background-image: url('https://your-image-link-here.jpg'); /* Example: background image of food */
+  background-size: cover;
+  background-position: center;
+  background-blur: 10px; /* Optional, if you want a blurry food background */
+}
