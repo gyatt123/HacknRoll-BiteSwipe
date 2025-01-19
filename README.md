@@ -15,7 +15,7 @@ On the first page, users can either create or join a party. BiteSwipe allows use
 # Installation
 
 1. *Clone the repository*:
-git clone https://github.com/username/project-name.git
+git clone https://github.com/gyatt123/HacknRoll-BiteSwipe.git
 
 2. *Navigate to the project directory*:
 cd project-HacknRoll-BiteSwipe
