@@ -1,32 +1,95 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 
+// Helper function to get member count
+async function getMemberCount(partyId) {
+  const { count, error } = await supabase
+    .from('members')
+    .select('*', { count: 'exact', head: true })
+    .eq('party_id', partyId);
+
+  if (error) throw error;
+  return count;
+}
+
 const TinderPage = () => {
     const [restaurants, setRestaurants] = useState([]);
     const [currentRestaurantIndex, setCurrentRestaurantIndex] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [memberCount, setMemberCount] = useState(0);
+
+    // Get party ID from URL or local storage
+    const partyId = window.location.pathname.split('/').pop();
 
     useEffect(() => {
-        const fetchRestaurants = async () => {
+        const fetchData = async () => {
             try {
-                const { data, error } = await supabase
+                // Fetch restaurants
+                const { data: restaurantData, error: restaurantError } = await supabase
                     .from('restaurants')
                     .select('*');
 
-                if (error) {
-                    throw error;
-                }
+                if (restaurantError) throw restaurantError;
+                setRestaurants(restaurantData);
 
-                setRestaurants(data);
+                // Fetch member count
+                const count = await getMemberCount(partyId);
+                setMemberCount(count);
             } catch (error) {
-                console.error('Error fetching restaurants:', error.message);
+                console.error('Error fetching data:', error.message);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchRestaurants();
-    }, []);
+        fetchData();
+    }, [partyId]);
+
+    // Fetch initial member count
+    useEffect(() => {
+        const fetchMemberCount = async () => {
+            try {
+                const { count, error } = await supabase
+                    .from('members')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('party_id', partyId);
+
+                if (error) throw error;
+                setMemberCount(count);
+            } catch (error) {
+                console.error('Error fetching member count:', error.message);
+            }
+        };
+
+        fetchMemberCount();
+    }, [partyId]);
+
+    // Subscribe to real-time member count changes
+    useEffect(() => {
+        const channel = supabase
+            .channel('realtime-members')
+            .on('postgres_changes', {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'members',
+                filter: `party_id=eq.${partyId}`
+            }, () => {
+                setMemberCount(prev => prev + 1);
+            })
+            .on('postgres_changes', {
+                event: 'DELETE',
+                schema: 'public',
+                table: 'members',
+                filter: `party_id=eq.${partyId}`
+            }, () => {
+                setMemberCount(prev => prev - 1);
+            })
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, [partyId]);
 
 
     if (loading) {
@@ -50,6 +113,9 @@ const TinderPage = () => {
 
     return (
         <div>
+            <div className="member-count">
+                Members in Party: {memberCount}
+            </div>
             <h1>Tinder Page</h1>
             {restaurants.length > 0 && currentRestaurantIndex < restaurants.length ? (
                 <div className="restaurant-card">

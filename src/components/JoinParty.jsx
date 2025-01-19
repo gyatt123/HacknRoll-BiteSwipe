@@ -9,16 +9,52 @@ const JoinParty = () => {
   const handleJoinParty = async () => {
     setLoading(true);
     try {
+      // Validate party code
+      if (!partyCode || partyCode.trim().length < 6) {
+        throw new Error('Please enter a valid 6-character party code');
+      }
+
       // Fetch the party details using the party code
       const { data, error } = await supabase
         .from('parties')
         .select('*')
-        .eq('code', partyCode)
+        .eq('code', partyCode.trim())
         .single();
 
       if (error) {
         throw error;
       }
+
+      // Check if party exists
+      if (!data) {
+        throw new Error('Party not found. Please check the code and try again.');
+      }
+
+      // Get current user
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData.user) {
+        throw new Error('User not authenticated');
+      }
+
+      console.log('Adding member:', {
+        party_id: data.id,
+        user_id: userData.user.id
+      });
+
+      // Add user to members table
+      const { error: memberError } = await supabase
+        .from('members')
+        .insert({
+          party_id: data.id,
+          user_id: userData.user.id
+        });
+
+      if (memberError) {
+        console.error('Error adding member:', memberError);
+        throw memberError;
+      }
+
+      console.log('Member added successfully');
 
       // Display the party details
       setPartyDetails(data);

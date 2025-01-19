@@ -237,3 +237,18 @@ h2 {
 .button-container button:last-child:hover {
   background-color: #388e3c; /* Darker green */
 }
+
+/* Member Count */
+.member-count {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ff6f3c;
+  z-index: 100;
+}
