@@ -252,3 +252,71 @@ h2 {
   color: #ff6f3c;
   z-index: 100;
 }
+
+/* Completion Card */
+.completion-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  margin: auto; /* Center the card */
+  animation: fadeIn 0.5s ease; /* Smooth fade-in effect */
+}
+
+/* Completion Card Header */
+.completion-card h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff6f3c; /* Vibrant orange to match theme */
+  margin-bottom: 1rem;
+}
+
+.completion-card img{
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  border-radius: 15px;
+  margin-bottom: 1rem; /* Adds spacing below the image */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Completion Card Paragraph */
+.completion-card p {
+  font-size: 1rem;
+  color: #555555;
+  margin-bottom: 1rem;
+  line-height: 1.5; /* Spacing for better readability */
+}
+
+/* Button in Completion Card */
+.completion-card .action-button {
+  width: auto;
+  padding: 0.8rem 2rem;
+  background-color: #ff6f3c;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.completion-card .action-button:hover {
+  background-color: #f77f00; /* Darker orange on hover */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
