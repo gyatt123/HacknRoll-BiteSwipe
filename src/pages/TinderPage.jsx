@@ -128,9 +128,6 @@ const TinderPage = () => {
                     <img src="https://www.laupasat.sg/nitropack_static/yiOaHEJwQErVvzLyfoMGpgsXyGSYwxUP/assets/images/optimized/rev-9a73174/www.laupasat.sg/wp-content/uploads/2024/04/banner-satay-street.jpg" alt="Lau Pa Sat" />
                     <p>You've reviewed all the restaurants in this session.</p>
                     <p>We appreciate your time and hope you had fun!</p>
-                    <button className="action-button" onClick={() => window.location.reload()}>
-                        Start Over
-                    </button>
                 </div>
             )}
         </div>
