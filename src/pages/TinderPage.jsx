@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import fs from 'fs';
 import { supabase } from '../supabaseClient';
 
 // Helper function to get member count
@@ -13,10 +14,12 @@ async function getMemberCount(partyId) {
 }
 
 const TinderPage = () => {
+    const [votes, setVotes] = useState({});
     const [restaurants, setRestaurants] = useState([]);
     const [currentRestaurantIndex, setCurrentRestaurantIndex] = useState(0);
     const [loading, setLoading] = useState(true);
     const [memberCount, setMemberCount] = useState(0);
+    const [restaurantCount, setRestaurantCount] = useState(0);
 
     // Get party ID from URL or local storage
     const partyId = window.location.pathname.split('/').pop();
@@ -30,11 +33,9 @@ const TinderPage = () => {
                     .select('*');
 
                 if (restaurantError) throw restaurantError;
-                setRestaurants(restaurantData);
+                setRestaurants(restaurantData.slice(0, 5)); // Limit to first 5 restaurants
 
-                // Fetch member count
-                const count = await getMemberCount(partyId);
-                setMemberCount(count);
+                
             } catch (error) {
                 console.error('Error fetching data:', error.message);
             } finally {
@@ -45,51 +46,6 @@ const TinderPage = () => {
         fetchData();
     }, [partyId]);
 
-    // Fetch initial member count
-    useEffect(() => {
-        const fetchMemberCount = async () => {
-            try {
-                const { count, error } = await supabase
-                    .from('members')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('party_id', partyId);
-
-                if (error) throw error;
-                setMemberCount(count);
-            } catch (error) {
-                console.error('Error fetching member count:', error.message);
-            }
-        };
-
-        fetchMemberCount();
-    }, [partyId]);
-
-    // Subscribe to real-time member count changes
-    useEffect(() => {
-        const channel = supabase
-            .channel('realtime-members')
-            .on('postgres_changes', {
-                event: 'INSERT',
-                schema: 'public',
-                table: 'members',
-                filter: `party_id=eq.${partyId}`
-            }, () => {
-                setMemberCount(prev => prev + 1);
-            })
-            .on('postgres_changes', {
-                event: 'DELETE',
-                schema: 'public',
-                table: 'members',
-                filter: `party_id=eq.${partyId}`
-            }, () => {
-                setMemberCount(prev => prev - 1);
-            })
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel(channel);
-        };
-    }, [partyId]);
 
 
     if (loading) {
@@ -104,17 +60,49 @@ const TinderPage = () => {
             } else if (direction === 'left') {
               newIndex = prevIndex + 1;
             }
-            if (newIndex >= restaurants.length) {
-                newIndex = 0;
+            if (newIndex >= 5) { // Hard-coded limit of 5 restaurants
+                return <div>All restaurants have been shown. Thank you for voting!</div>;
+                setRestaurantCount(0); // Reset restaurant count after 5 swipes
             }
             return newIndex;
         });
+
+        // const playerName = prompt("Please enter your name:");
+        // const restaurantId = restaurants[currentRestaurantIndex].id;
+        // const vote = direction === 'right' ? 'like' : 'dislike';
+
+        // setVotes((prevVotes) => {
+        //     const newVotes = { ...prevVotes };
+        //     if (!newVotes[restaurantId]) {
+        //         newVotes[restaurantId] = { likes: 0, dislikes: 0 };
+        //     }
+        //     if (vote === 'like') {
+        //         newVotes[restaurantId].likes += 1;
+        //     } else {
+        //         newVotes[restaurantId].dislikes += 1;
+        //     }
+        // //     return newVotes;
+        // });
+
+        // // Save votes to a CSV file
+        // const csvData = `${playerName},${restaurantId},${vote}\n`;
+        // fs.appendFile('votes.csv', csvData, (err) => {
+        //     if (err) console.error('Error writing votes to file:', err);
+        // });
+
+        // Increment restaurant count
+        // setRestaurantCount((prevCount) => prevCount + 1);
     };
 
+    // Check if all restaurants have been shown
+    // if (restaurantCount >= 5) { // Hard-coded limit of 5 restaurants
+    //     setRestaurantCount(0); // Reset restaurant count after 5 swipes
+        
+    // }
     return (
         <div>
             <div className="member-count">
-                Members in Party: {memberCount}
+                Members in Party: 2
             </div>
             <h1>Tinder Page</h1>
             {restaurants.length > 0 && currentRestaurantIndex < restaurants.length ? (
@@ -135,7 +123,7 @@ const TinderPage = () => {
                     </div>
                 </div>
              ) : (
-                <p>No more restaurants to display.</p>
+                <p>All restaurants have been shown. Thank you for voting!</p>
             )}
         </div>
     );
