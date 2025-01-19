@@ -49,7 +49,8 @@ const FirstPage = () => {
         throw error;
       }
 
-      alert(`Successfully joined the party! Party ID: ${data.id}`);
+
+      alert(`Successfully joined the party! Party ID: ${data.id}`); 
       navigate('/tinder', { state: { partyId: data.id } });
 
     } catch (error) {
